@@ -81,10 +81,10 @@ pm = [p1m,p2m,p3m,p4m,p5m,p6m]
 
 
 #____________periodicly check for time _________________
+cval = 0
 
 while True:
 
-    #if statement om elk uur even de tijd op te halen, om te synchroniseren
     decvalh = (int(utime.localtime()[3]) + 1)%12
     binvalh = list("{0:b}".format(decvalh))
     binvalh = list(map(int,binvalh))
@@ -93,6 +93,14 @@ while True:
     decvalm = decvalm[4]
     binvalm = list("{0:b}".format(decvalm))
     binvalm = list(map(int,binvalm))
+
+    #syncing every 15 minutes, and only once.
+    if decvalm%15 ==0:
+        if cval:
+            settime()
+            cval = 0
+    else:
+        cval = 1
 
     #lengte goed zetten van de array van binval
     if not(len(binvalh) == 4):
